@@ -1,6 +1,5 @@
 import argparse
 import os
-import re
 
 def part1(lines):
     total = 0
