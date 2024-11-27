@@ -4,6 +4,7 @@ import os
 
 def part1(lines, expected=None):
     total = 0
+    # Start of implementation #
     for line in lines:
         for c in line:
             if c.isdigit():
@@ -14,6 +15,7 @@ def part1(lines, expected=None):
                 last = int(c)
                 break
         total += 10 * first + last
+    # End of implementation #
     if expected is not None:
         assert total == expected
     return total
@@ -45,6 +47,7 @@ def get_digit(string):
 
 def part2(lines, expected=None):
     total = 0
+    # Start of implementation #
     for line in lines:
         first = 0
         for idx in range(len(line)):
@@ -55,6 +58,7 @@ def part2(lines, expected=None):
             if last := get_digit(line[idx:]):
                 break
         total += 10 * first + last
+    # End of implementation #
     if expected is not None:
         assert total == expected
     return total
