@@ -5,9 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+        },
+        {
             "type": "lldb",
             "request": "launch",
-            "name": "Rust",
+            "name": "Rust Debugger: Current File",
             "cargo": {
                 "args": [
                     "build",
@@ -16,13 +23,6 @@
             },
             "cwd": "${fileDirname}/../",
             "env": {"RUST_BACKTRACE": "1"}
-        },
-        {
-            "name": "Python Debugger: Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
         }
     ]
 }
