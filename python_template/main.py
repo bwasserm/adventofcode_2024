@@ -42,7 +42,7 @@ if __name__ == "__main__":
     _, ex2 = process_file("example2", None, example_part2_expected)
     print("Example:")
     print(f"Part 1 expected {example_part1_expected} got {ex1}: {example_part1_expected == ex1}")
-    print(f"Part 2 expected {example_part2_expected} got {ex1}: {example_part2_expected == ex2}")
+    print(f"Part 2 expected {example_part2_expected} got {ex2}: {example_part2_expected == ex2}")
 
     p1, p2 = process_file("input")
     print("Input:")
