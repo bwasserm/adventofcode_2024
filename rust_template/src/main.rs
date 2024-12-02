@@ -30,8 +30,7 @@ fn process_file(path: &str, exp1: Option<i32>, exp2: Option<i32>) -> (i32, i32) 
 fn main() {
     let example_part1_expected = 1;
     let example_part2_expected = 1;
-    let (ex1, _) = process_file("example1", Some(example_part1_expected), None);
-    let (_, ex2) = process_file("example2", None, Some(example_part2_expected));
+    let (ex1, ex2) = process_file("example", Some(example_part1_expected), Some(example_part2_expected));
     println!("Example 1: {ex1} 2: {ex2}");
     let (p1, p2) = process_file("input", None, None);
     println!("Input: part 1: {p1} part 2: {p2}");

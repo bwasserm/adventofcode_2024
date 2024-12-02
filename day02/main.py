@@ -1,13 +1,32 @@
-# https://adventofcode.com/2023/day/1
+# https://adventofcode.com/2024/day/3
 
 import os
 from typing import List
 
-def part1(lines: List[str], expected: int | None = None) -> int:
-    total = 0
-    # Start of implementation #
+
+def parse_lines(lines: List[str]) -> List[List[int]]:
+    reports = []
     for line in lines:
-        pass
+        levels = [int(l) for l in line.split()]
+        reports.append(levels)
+    return reports
+
+
+def test_report(report: List[int]) -> bool:
+    up = True
+    down = True
+    small = True
+    for i, l in enumerate(report[1:]):
+        up &= report[i] < l
+        down &= report[i] > l
+        small &= abs(report[i] - l) <= 3
+    return small and (up ^ down)
+
+
+def part1(lines: List[str], expected: int | None = None) -> int:
+    # Start of implementation #
+    reports = parse_lines(lines)
+    total = sum([test_report(r) for r in reports])
     # End of implementation #
     if expected is not None:
         assert total == expected
@@ -15,10 +34,18 @@ def part1(lines: List[str], expected: int | None = None) -> int:
 
 
 def part2(lines: List[str], expected: int | None = None) -> int:
-    total = 0
     # Start of implementation #
-    for line in lines:
-        pass
+    reports = parse_lines(lines)
+    total = 0
+    for report in reports:
+        if test_report(report):
+            total += 1
+        else:
+            for i in range(len(report)):
+                r2 = report[:i] + report[i+1:]
+                if test_report(r2):
+                    total += 1
+                    break
     # End of implementation #
     if expected is not None:
         assert total == expected
@@ -36,9 +63,10 @@ def process_file(filename: str, expected_part1: int | None = None, expected_part
 
 
 if __name__ == "__main__":
-    example_part1_expected = 0
-    example_part2_expected = 0
-    ex1, ex2 = process_file("example1", example_part1_expected, example_part2_expected)
+    example_part1_expected = 2
+    example_part2_expected = 4
+    ex1, _ = process_file("example1", example_part1_expected, None)
+    _, ex2 = process_file("example1", None, example_part2_expected)
     print("Example:")
     print(f"Part 1 expected {example_part1_expected} got {ex1}: {example_part1_expected == ex1}")
     print(f"Part 2 expected {example_part2_expected} got {ex2}: {example_part2_expected == ex2}")

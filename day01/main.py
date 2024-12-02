@@ -1,4 +1,4 @@
-# https://adventofcode.com/2023/day/1
+# https://adventofcode.com/2024/day/1
 
 import collections
 import os
