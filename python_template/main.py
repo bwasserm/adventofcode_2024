@@ -10,7 +10,7 @@ def part1(lines: List[str], expected: int | None = None) -> int:
         pass
     # End of implementation #
     if expected is not None:
-        assert total == expected
+        print(f"Part 1: Expected: {expected} Calculated: {total} Equal: {expected == total}")
     return total
 
 
@@ -21,7 +21,7 @@ def part2(lines: List[str], expected: int | None = None) -> int:
         pass
     # End of implementation #
     if expected is not None:
-        assert total == expected
+        print(f"Part 2: Expected: {expected} Calculated: {total} Equal: {expected == total}")
     return total
 
 

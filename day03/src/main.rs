@@ -1,4 +1,5 @@
 // https://adventofcode.com/2024/day/3
+// https://xkcd.com/208/
 
 use std::fs;
 use regex::Regex;
