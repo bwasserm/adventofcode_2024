@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, time::Instant};
 
 
 fn part1(lines: &Vec<&str>, expected: Option<i32>) -> i32 {
@@ -22,8 +22,12 @@ fn part2(lines: &Vec<&str>, expected: Option<i32>) -> i32  {
 fn process_file(path: &str, exp1: Option<i32>, exp2: Option<i32>) -> (i32, i32) {
     let input = fs::read_to_string(path).unwrap();
     let lines: Vec<&str> = input.split('\n').into_iter().map(|l| {l.trim()}).collect();
+    let now = Instant::now();
     let part1_result = part1(&lines, exp1);
+    let p1 = now.elapsed();
     let part2_result = part2(&lines, exp2);
+    let p2 = now.elapsed() - p1;
+    println!("Part 1 time: {p1:.2?}  Part 2 time: {p2:.2?}");
     (part1_result, part2_result)
 }
 
