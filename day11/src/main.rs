@@ -1,4 +1,4 @@
-use std::{fs, time::Instant};
+use std::{collections::HashMap, fs, time::Instant};
 use rayon::prelude::*;
 
 fn count_stones(lines: &Vec<&str>, blinks: usize) -> i32 {
@@ -25,20 +25,25 @@ fn count_stones(lines: &Vec<&str>, blinks: usize) -> i32 {
     stones.len() as i32
 }
 
-fn count_stones2(stones: &[u64], blinks: usize) -> usize {
-    if blinks == 0 {
-        return stones.len();
+fn count_stones2(stones: &[u64], blinks: usize, known: &mut HashMap<u64, u64>) -> u64 {
+    if stones.iter().all(|s| known.contains_key(s)) {
+        return stones.iter().map(|s| known.get(s).unwrap()).sum();
     }
-    stones.par_iter().map(|stone| {
+    if blinks == 0 {
+        let num_stones = stones.len() as u64;
+        let _ = stones.iter().map(|s| known.insert(*s, num_stones));
+        return num_stones;
+    }
+    stones.iter().map(|stone| {
         if stone == &0 {
-            count_stones2(&[1], blinks - 1)
+            count_stones2(&[1], blinks - 1, known)
         } else {
             let numdigs = stone.ilog10() + 1;
             if numdigs % 2 == 0 {
                 let half_digits: u64 = 10u64.pow(numdigs / 2);
-                count_stones2(&[stone / &half_digits, stone % half_digits], blinks - 1)
+                count_stones2(&[stone / &half_digits, stone % half_digits], blinks - 1, known)
             } else {
-                count_stones2(&[stone * 2024], blinks - 1)
+                count_stones2(&[stone * 2024], blinks - 1, known)
             }
         }
     }).sum()
@@ -56,7 +61,8 @@ fn part1(lines: &Vec<&str>, expected: Option<i32>) -> i32 {
 fn part2(lines: &Vec<&str>, expected: Option<i32>) -> i32  {
     // Implementation here
     let stones: Vec<u64> = lines[0].split_whitespace().map(|s| s.parse().unwrap()).collect();
-    let total = count_stones2(stones.iter().as_slice(), 75) as i32;
+    let mut known: HashMap<u64, u64> = HashMap::new();
+    let total = count_stones2(stones.iter().as_slice(), 75, &mut known) as i32;
     if let Some(exp) = expected {
         println!("Part 2: Expected: {exp} Calculated: {total} Equal: {}", exp == total);
     }
@@ -76,8 +82,8 @@ fn process_file(path: &str, exp1: Option<i32>, exp2: Option<i32>) -> (i32, i32) 
 }
 
 fn main() {
-    let example_part1_expected = 55312;
-    let example_part2_expected = 55312;
+    // let example_part1_expected = 55312;
+    // let example_part2_expected = 55312;
     // let (ex1, ex2) = process_file("example", Some(example_part1_expected), Some(example_part2_expected));
     // println!("Example 1: {ex1} 2: {ex2}");
     let (p1, p2) = process_file("input", None, None);
