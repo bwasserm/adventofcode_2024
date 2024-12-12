@@ -58,18 +58,18 @@ fn part1(lines: &Vec<&str>, expected: Option<i32>) -> i32 {
     total
 }
 
-fn part2(lines: &Vec<&str>, expected: Option<i32>) -> i32  {
+fn part2(lines: &Vec<&str>, expected: Option<u64>) -> u64  {
     // Implementation here
     let stones: Vec<u64> = lines[0].split_whitespace().map(|s| s.parse().unwrap()).collect();
-    let mut known: HashMap<u64, u64> = HashMap::new();
-    let total = count_stones2(stones.iter().as_slice(), 75, &mut known) as i32;
+    let known: HashMap<u64, u64> = HashMap::new();
+    let total = stones.par_iter().map(|s| count_stones2(&[*s], 75, &mut known.clone())).sum::<u64>();
     if let Some(exp) = expected {
         println!("Part 2: Expected: {exp} Calculated: {total} Equal: {}", exp == total);
     }
     total
 }
 
-fn process_file(path: &str, exp1: Option<i32>, exp2: Option<i32>) -> (i32, i32) {
+fn process_file(path: &str, exp1: Option<i32>, exp2: Option<u64>) -> (i32, u64) {
     let input = fs::read_to_string(path).unwrap();
     let lines: Vec<&str> = input.split('\n').into_iter().map(|l| {l.trim()}).collect();
     let now = Instant::now();
